@@ -1,0 +1,42 @@
+server:
+  port: 7777
+
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+spring:
+  application:
+    name: ms-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: route1
+          predicates:
+            - Path=/service-event/**
+          filters:
+            - RewritePath=/service-event/(?<s>.*), /${s}
+          uri: lb://service-event
+
+        - id: route2
+          predicates:
+              - Path=/service-auth/**
+          filters:
+              - RewritePath=/service-auth/(?<s>.*), /${s}
+          uri: lb://service-auth
+
+        - id: route3
+          predicates:
+              - Path=/service-purchase/**
+          filters:
+              - RewritePath=/service-purchase/(?<s>.*), /${s}
+          uri: lb://service-purchase

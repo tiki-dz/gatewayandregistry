@@ -1,0 +1,4 @@
+from openjdk:17-jdk-alpine
+copy target/ms-gateway*.jar ms-gateway.jar
+entrypoint ["java","-jar","/ms-gateway.jar"]
+expose 7777

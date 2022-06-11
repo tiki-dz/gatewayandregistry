@@ -1,0 +1,4 @@
+from openjdk:17-jdk-alpine
+copy target/registry*.jar registry.jar
+entrypoint ["java","-jar","/registry.jar"]
+expose 8088
